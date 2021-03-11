@@ -25,6 +25,9 @@
 
 ![demo](assets/demo.gif)
 
+*A\* star search used to solve pathfinding problem modelized as state space.*
+
 ## License
+
 This project is licensed under [MIT License](https://github.com/TrAyZeN/state-space/blob/master/LICENSE).
 
