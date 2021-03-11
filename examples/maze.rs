@@ -10,8 +10,6 @@ X X X X X   X X X XXXXX  XXX    X X XX   X XXXX X XX   XXX X    X X   X
 X   X     X X X X           X X X X X                 X       X X X   X
 X X X   X X        XX  XXXX X   X    XX          XX X   XXXXX   X X X X
 X       X     X X           X     X       X       X   X X   X X X     X
-X  X  XXXX X    X       X X XXXX XX X     XXX X   X X X X X X X X X X X
-X               X                             X   X       X     X     X
 X X X  XXX  X X XXX  XXXXX XX   XXX X  X XX   XXX     XX X XX X  X  XXX
 X                   X             X X       X   X X                   X
 X XXX X   X   X   X   XXXXXX    X X XXX   XXX   X XXX X  XX     X X X X
@@ -19,17 +17,14 @@ X   X     X                 X X X   X                 X               X
 X X   X   X X XXX X  XXX  X XX    X X X X  XX XX    X X   XX  X   XXX X
 X       X X         X   X                           X X       X       X
 X X   X X   XXX X       X  X X    X XXX   X XXXXXX XXXX   XXXXX XX  X X
-X X X   X       X   X X   X     X         X   X         X           X X
-X     XX  X   X X     XXXX XXX  X X X XX XXXX X XX  XXX  XXX X XXXX X X
 X   X           X     X           X           X X                     X
 X    XX    XX X   X X X  X   XX X X XXXXX   X    XX XX XX X X X   X   X
 X X   X   X     X                 X         X           X X           X
 X XX  X X XXX X   X X XXX X   XXXXXXX X X    XX X  XXX  X     XXX X XXX
 X       X                 X               X       X   X           X   X
-X XX X  X X   XX  X XXXX XX XXXXX XXXXX X   X     X X X     XXX X  X  X
-X   X   X     X   X   X   X           X     X X X X         X     X   X
-X X  X    XX   XX         X XXXX X    X XXX   X X X  XXXX X X  XXXX  XX
-X X       X     X                           X     X     X   X X       X
+X   X   X     X   X   X   X           X     X     X         X     X   X
+X X  X    XX   XX     X   X XXXX X    X XXX XXXXXXX  XXXX X X  XXXX  XX
+X X       X     X     X     X         X     X     X     X   X X       X
 X  X  X X X X X   X X XXXXX XX   XX XXXX  X XXX X X XXXXXX XX  XX XX  X
 X             X X         X         X   X X     X             X       X
 X X  X  XXX  X  X X   XXX X XXX X X X X X    XX   X X  X    X X   XXX X
@@ -56,8 +51,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"#
             .into(),
     );
 
-    let initial = (1, 43);
-    let goal = (21, 47);
+    let initial = (1, 38);
+    let goal = (21, 42);
     let path = maze.a_star(initial, goal);
 
     println!("{}", maze.draw_maze_path(&path, &[]));
@@ -117,7 +112,7 @@ impl Maze {
     }
 
     pub fn draw_maze_path(&self, path: &[(usize, usize)], open: &[(usize, usize)]) -> String {
-        (0..self.height)
+        let mut maze = (0..self.height)
             .map(|y| {
                 let mut line = (0..self.width)
                     .map(|x| match self.get(x, y) {
@@ -132,7 +127,10 @@ impl Maze {
                 line.push('\n');
                 line
             })
-            .collect::<String>()
+            .collect::<String>();
+        maze.pop();
+
+        maze
     }
 }
 
