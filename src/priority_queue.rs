@@ -53,13 +53,15 @@ impl<T: Eq> Default for MinPrioriyQueue<T> {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, PartialOrd)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 #[repr(transparent)]
 struct NotNan(f32);
 
 impl NotNan {
+    // `is_nan` is not const yet
+    #[allow(clippy::missing_const_for_fn)]
     #[inline]
-    fn new(value: f32) -> Option<NotNan> {
+    fn new(value: f32) -> Option<Self> {
         match value {
             value if value.is_nan() => None,
             value => Some(Self(value)),
@@ -72,7 +74,14 @@ impl Eq for NotNan {}
 impl Ord for NotNan {
     #[inline]
     fn cmp(&self, other: &Self) -> Ordering {
-        self.partial_cmp(&other).expect("Value should not be NaN")
+        self.partial_cmp(other).expect("Value should not be NaN")
+    }
+}
+
+impl PartialOrd for NotNan {
+    #[inline]
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.0.partial_cmp(&other.0)
     }
 }
 

@@ -36,11 +36,7 @@ pub trait StateSpace {
     /// - Optimal: No
     /// - Time complexity: O(b^d)
     /// - Space complexity: O(b^d)
-    fn random_search(
-        &self,
-        init: Self::State,
-        goal: Self::State,
-    ) -> Vec<Self::State> {
+    fn random_search(&self, init: Self::State, goal: Self::State) -> Vec<Self::State> {
         let mut rng = thread_rng();
         let mut open = Vec::new();
         let mut closed = HashSet::new();
@@ -55,7 +51,7 @@ pub trait StateSpace {
                 return reconstruct_path(parent_of_state, current);
             }
 
-            for neighbour in self.neighbours(&current).into_iter() {
+            for neighbour in self.neighbours(&current) {
                 if neighbour != current
                     && !open.contains(&neighbour)
                     && !closed.contains(&neighbour)
@@ -80,11 +76,7 @@ pub trait StateSpace {
     /// - Optimal: Yes
     /// - Time complexity: O(b^d)
     /// - Space complexity: O(b^d)
-    fn breadth_first_search(
-        &self,
-        init: Self::State,
-        goal: Self::State,
-    ) -> Vec<Self::State> {
+    fn breadth_first_search(&self, init: Self::State, goal: Self::State) -> Vec<Self::State> {
         let mut open = VecDeque::new();
         let mut closed = HashSet::new();
         let mut parent_of_state = HashMap::new();
@@ -123,11 +115,7 @@ pub trait StateSpace {
     /// - Optimal: No
     /// - Time complexity: O(b^d)
     /// - Space complexity: O(bm)
-    fn depth_first_search(
-        &self,
-        init: Self::State,
-        goal: Self::State,
-    ) -> Vec<Self::State> {
+    fn depth_first_search(&self, init: Self::State, goal: Self::State) -> Vec<Self::State> {
         let mut open = Vec::new();
         let mut closed = HashSet::new();
         let mut parent_of_state = HashMap::new();
@@ -186,11 +174,7 @@ pub trait CostStateSpace: StateSpace {
     /// - Optimal: Yes
     /// - Time complexity: O(b^d)
     /// - Space complexity: O(b^d)
-    fn dijkstra(
-        &self,
-        init: Self::State,
-        goal: Self::State,
-    ) -> Vec<Self::State> {
+    fn dijkstra(&self, init: Self::State, goal: Self::State) -> Vec<Self::State> {
         let mut queue = MinPrioriyQueue::new();
         let mut distances = HashMap::new();
         let mut parent_of_state = HashMap::new();
@@ -209,17 +193,17 @@ pub trait CostStateSpace: StateSpace {
             for neighbour in self.neighbours(&current) {
                 let d = current_dist + self.cost(&current, &neighbour);
 
-                if !distances.contains_key(&neighbour) {
-                    distances.insert(neighbour.clone(), d);
-                    queue.enqueue(d, neighbour.clone());
-                    parent_of_state.insert(neighbour, current.clone());
-                } else {
+                if distances.contains_key(&neighbour) {
                     let dp = distances.get_mut(&neighbour).unwrap();
                     if d < *dp {
                         *dp = d;
                         queue.enqueue(d, neighbour.clone());
                         parent_of_state.insert(neighbour, current.clone());
                     }
+                } else {
+                    distances.insert(neighbour.clone(), d);
+                    queue.enqueue(d, neighbour.clone());
+                    parent_of_state.insert(neighbour, current.clone());
                 }
             }
 
@@ -244,11 +228,7 @@ pub trait HeuristicStateSpace: CostStateSpace {
     /// - Optimal: No
     /// - Time complexity: O(b^d)
     /// - Space complexity: O(b^d)
-    fn greedy_search(
-        &self,
-        init: Self::State,
-        goal: Self::State,
-    ) -> Vec<Self::State> {
+    fn greedy_search(&self, init: Self::State, goal: Self::State) -> Vec<Self::State> {
         let mut open = MinPrioriyQueue::new();
         let mut closed = HashSet::new();
         let mut parent_of_state = HashMap::new();
@@ -287,11 +267,7 @@ pub trait HeuristicStateSpace: CostStateSpace {
     /// - Optimal: Yes (if the heuristic is *optimistic*)
     /// - Time complexity: O(min(b^(d+1), b|S|))
     /// - Space complexity: O(min(b^(d+1), b|S|))
-    fn a_star(
-        &self,
-        init: Self::State,
-        goal: Self::State,
-    ) -> Vec<Self::State> {
+    fn a_star(&self, init: Self::State, goal: Self::State) -> Vec<Self::State> {
         let mut open = MinPrioriyQueue::new();
         let mut distances = HashMap::new();
         let mut parent_of_state = HashMap::new();

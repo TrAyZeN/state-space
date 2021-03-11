@@ -1,11 +1,17 @@
 [package]
 name = "state-space"
+description = "A library providing searches on state space."
+repository = "https://github.com/trayze/state-space"
 version = "0.1.0"
 authors = ["TrAyZeN"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
+keywords = [
+    "state-space",
+    "state-space-search",
+    "graph"
+]
+categories = []
 
 [dependencies]
 rand = "0.8.3"
-
