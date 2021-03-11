@@ -11,7 +11,10 @@ keywords = [
     "state-space-search",
     "graph"
 ]
-categories = []
+categories = [
+    "algorithms",
+    "game"
+]
 
 [dependencies]
 rand = "0.8.3"
