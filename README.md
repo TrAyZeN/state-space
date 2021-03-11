@@ -1,6 +1,9 @@
 <h1 align="center">
     state-space
 </h1>
+
+![CI](https://github.com/trayzen/state-space/workflows/CI/badge.svg)
+
 > A library providing searches on state space.
 
 ## What is a state space ?
