@@ -18,3 +18,6 @@
 - [Greedy search (also called Best-first search)](https://en.wikipedia.org/wiki/Best-first_search)
 - [A* search](https://en.wikipedia.org/wiki/A*_search_algorithm)
 
+## License
+This project is licensed under [MIT License](https://github.com/TrAyZeN/state-space/blob/master/LICENSE).
+
